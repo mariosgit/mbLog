@@ -1,10 +1,10 @@
 # mbLog - C++ std::iostream style console outputs.
 
-It does not implement iostream, it yust mimics it's interface. So you can write ```LOG <<output <<moreoutput;```, which sometimes is faster to write then all these prints.
+It does not implement iostream, it just mimics it's interface. So you can write ```LOG <<output <<moreoutput;```, which sometimes is faster to write then all these prints.
 
 ## Install
 
-Clone this repo to your libraries or lib folder.
+Clone this repo to your libraries or lib folder. Or add it to .gitmodules ```git submodule add ADR lib/mbLog```.
 
 ## Use
 
