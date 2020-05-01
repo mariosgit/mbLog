@@ -15,12 +15,15 @@
 class MbLog
 {
 public:
+    enum FORMAT {
+        bin, dec, oct, hex
+    };
     MbLog() {}
     inline void begin() {}
-    inline MbLog& bin() {_how = BIN; return *this;}
-    inline MbLog& oct() {_how = OCT; return *this;}
-    inline MbLog& dec() {_how = DEC; return *this;}
-    inline MbLog& hex() {_how = HEX; return *this;}
+    inline MbLog& fbin() {_how = BIN; return *this;}
+    inline MbLog& foct() {_how = OCT; return *this;}
+    inline MbLog& fdec() {_how = DEC; return *this;}
+    inline MbLog& fhex() {_how = HEX; return *this;}
     inline MbLog& dez(byte val) {_dez = val; return *this;}
 
     inline void print  (byte val, byte how = DEC) { MbLogOut.print(val,how); }
@@ -48,6 +51,15 @@ public:
     inline MbLog& operator<<(float val) { MbLogOut.print(val,_dez); return *this; };
     inline MbLog& operator<<(double val) { MbLogOut.print(val,_dez); return *this; };
     inline MbLog& operator<<(bool val) { MbLogOut.print(val,DEC); return *this; };
+    inline MbLog& operator<<(FORMAT val) {
+        switch(val) {
+            case bin: return fbin();
+            case oct: return foct();
+            case dec: return fdec();
+            case hex: return fhex();
+        }
+        return *this;
+    };
 
 private:
     byte _how = DEC;
