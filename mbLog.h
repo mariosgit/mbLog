@@ -39,6 +39,8 @@ public:
     inline void print  (double val) { MbLogOut.print(val); }
     inline void println(double val) { MbLogOut.println(val); }
     inline MbLog& operator<<(const char *msg) { MbLogOut.print(msg); return *this; };
+    inline MbLog& operator<<(int val) { MbLogOut.print(val,_how); return *this; };
+    inline MbLog& operator<<(unsigned int val) { MbLogOut.print(val,_how); return *this; };
     inline MbLog& operator<<(int16_t val) { MbLogOut.print(val,_how); return *this; };
     inline MbLog& operator<<(int32_t val) { MbLogOut.print(val,_how); return *this; };
     inline MbLog& operator<<(uint32_t val) { MbLogOut.print(val,_how); return *this; };
