@@ -7,9 +7,16 @@
 
 #include <Arduino.h>
 
+#ifdef WITH_THREADS
+#include <TeensyThreads.h>
+#define LK Threads::Scope m(_mutex)
+#else
+#define LK 
+#endif
+
 // does not work with typedef :( ???
 #ifndef MbLogOut
-    #define MbLogOut Serial
+    #define MbLogOut LK; Serial
 #endif
 
 class MbLog
@@ -65,6 +72,9 @@ public:
 private:
     byte _how = DEC;
     byte _dez = 2;
+#ifdef WITH_THREADS
+    Threads::Mutex _mutex;
+#endif
 };
 
 extern MbLog LOG;
