@@ -40,6 +40,8 @@ public:
     inline void println(uint32_t val, byte how = DEC) { MbLogOut.println(val,how); }
     inline void print  (int32_t val, byte how = DEC) { MbLogOut.print(val,how); }
     inline void println(int32_t val, byte how = DEC) { MbLogOut.println(val,how); }
+    inline void print  (uint64_t val, byte how = DEC) { MbLogOut.println((uint32_t)(val>>32),how); MbLogOut.println((uint32_t)(val&&0xffffffff),how); }
+    inline void println(uint64_t val, byte how = DEC) { MbLogOut.println((uint32_t)(val>>32),how); MbLogOut.println((uint32_t)(val&&0xffffffff),how); }
     inline void print  (const char *msg) { MbLogOut.print(msg); }
     inline void println(const char *msg) { MbLogOut.println(msg); }
     inline void print  (float val) { MbLogOut.print(val); }
@@ -54,11 +56,34 @@ public:
     inline MbLog& operator<<(int32_t val) { MbLogOut.print(val,_how); return *this; };
     inline MbLog& operator<<(uint32_t val) { MbLogOut.print(val,_how); return *this; };
 #endif
-    inline MbLog& operator<<(byte val) { MbLogOut.print(val,_how); return *this; };
-    inline MbLog& operator<<(char val) { MbLogOut.print(val,_how); return *this; };
+    inline MbLog& operator<<(byte val) {
+        if(_how == HEX) {
+            sprintf(buffer, "%02x", val);
+            MbLogOut.print(buffer);
+        } else {
+            MbLogOut.print(val,_how);
+        }
+        return *this;
+    };
     inline MbLog& operator<<(float val) { MbLogOut.print(val,_dez); return *this; };
     inline MbLog& operator<<(double val) { MbLogOut.print(val,_dez); return *this; };
     inline MbLog& operator<<(bool val) { MbLogOut.print(val,DEC); return *this; };
+    inline MbLog& operator<<(uint16_t val) {
+        if(_how == HEX) {
+            sprintf(buffer, "%04x", val);
+            MbLogOut.print(buffer);
+        } else {
+            MbLogOut.print(val,_how);
+        }
+        return *this;
+    };
+    inline MbLog& operator<<(uint64_t val) {
+        uint32_t upper = val>>32;
+        uint32_t lower = val;
+        sprintf(buffer, "%08lx %08lx", upper, lower);
+        MbLogOut.print(buffer);
+        return *this;
+    };
     inline MbLog& operator<<(FORMAT val) {
         switch(val) {
             case bin:  { _how = BIN; return *this; }
@@ -73,6 +98,7 @@ public:
 private:
     byte _how = DEC;
     byte _dez = 2;
+    char buffer[40];
 // #ifdef WITH_THREADS
 //     Threads::Mutex _mutex;
 // #endif
