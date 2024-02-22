@@ -23,6 +23,11 @@
 class MbLog
 {
 public:
+#ifdef ARDUINO_ARCH_STM32
+    typedef int how_t; // someone alsways needs spezial treatment :(
+#else
+    typedef uint8_t how_t;
+#endif
     enum FORMAT {
         bin, dec, oct, hex, endl
     };
@@ -30,18 +35,18 @@ public:
     inline void begin() {}
     inline MbLog& dez(byte val) {_dez = val; return *this;}
 
-    inline void print  (byte val, byte how = DEC) { MbLogOut.print(val,how); }
-    inline void println(byte val, byte how = DEC) { MbLogOut.println(val,how); }
-    inline void print  (uint16_t val, byte how = DEC) { MbLogOut.print(val,how); }
-    inline void println(uint16_t val, byte how = DEC) { MbLogOut.println(val,how); }
-    inline void print  (int16_t val, byte how = DEC) { MbLogOut.print(val,how); }
-    inline void println(int16_t val, byte how = DEC) { MbLogOut.println(val,how); }
-    inline void print  (uint32_t val, byte how = DEC) { MbLogOut.print(val,how); }
-    inline void println(uint32_t val, byte how = DEC) { MbLogOut.println(val,how); }
-    inline void print  (int32_t val, byte how = DEC) { MbLogOut.print(val,how); }
-    inline void println(int32_t val, byte how = DEC) { MbLogOut.println(val,how); }
-    inline void print  (uint64_t val, byte how = DEC) { MbLogOut.println((uint32_t)(val>>32),how); MbLogOut.println((uint32_t)(val&&0xffffffff),how); }
-    inline void println(uint64_t val, byte how = DEC) { MbLogOut.println((uint32_t)(val>>32),how); MbLogOut.println((uint32_t)(val&&0xffffffff),how); }
+    inline void print  (byte val, how_t how = DEC) { MbLogOut.print(val,how); }
+    inline void println(byte val, how_t how = DEC) { MbLogOut.println(val,how); }
+    inline void print  (uint16_t val, how_t how = DEC) { MbLogOut.print(val,how); }
+    inline void println(uint16_t val, how_t how = DEC) { MbLogOut.println(val,how); }
+    inline void print  (int16_t val, how_t how = DEC) { MbLogOut.print(val,how); }
+    inline void println(int16_t val, how_t how = DEC) { MbLogOut.println(val,how); }
+    inline void print  (uint32_t val, how_t how = DEC) { MbLogOut.print(val,how); }
+    inline void println(uint32_t val, how_t how = DEC) { MbLogOut.println(val,how); }
+    inline void print  (int32_t val, how_t how = DEC) { MbLogOut.print(val,how); }
+    inline void println(int32_t val, how_t how = DEC) { MbLogOut.println(val,how); }
+    inline void print  (uint64_t val, how_t how = DEC) { MbLogOut.println((uint32_t)(val>>32),how); MbLogOut.println((uint32_t)(val&&0xffffffff),how); }
+    inline void println(uint64_t val, how_t how = DEC) { MbLogOut.println((uint32_t)(val>>32),how); MbLogOut.println((uint32_t)(val&&0xffffffff),how); }
     inline void print  (const char *msg) { MbLogOut.print(msg); }
     inline void println(const char *msg) { MbLogOut.println(msg); }
     inline void print  (float val) { MbLogOut.print(val); }
@@ -96,8 +101,8 @@ public:
     };
 
 private:
-    byte _how = DEC;
-    byte _dez = 2;
+    how_t _how = DEC;
+    how_t _dez = 2;
     char buffer[40];
 // #ifdef WITH_THREADS
 //     Threads::Mutex _mutex;
