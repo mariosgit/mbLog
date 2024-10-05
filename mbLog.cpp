@@ -1,3 +1,3 @@
-#include "mblog.h"
+#include "mbLog.h"
 
 MbLog LOG; // one global instance
