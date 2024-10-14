@@ -54,8 +54,8 @@ public:
     inline void println(double val) { LK MbLogOut.println(val); }
     inline MbLog& operator<<(const char *msg) { LK MbLogOut.print(msg); return *this; };
     inline MbLog& operator<<(int16_t val) { LK MbLogOut.print(val,_how); return *this; };
-    inline MbLog& operator<<(int val) { LK MbLogOut.print(val,_how); return *this; };
-    inline MbLog& operator<<(unsigned int val) { LK MbLogOut.print(val,_how); return *this; };
+    // inline MbLog& operator<<(int val) { LK MbLogOut.print(val,_how); return *this; };
+    // inline MbLog& operator<<(unsigned int val) { LK MbLogOut.print(val,_how); return *this; };
 #ifndef ESP32
     inline MbLog& operator<<(int32_t val) { LK MbLogOut.print(val,_how); return *this; };
     inline MbLog& operator<<(uint32_t val) { LK MbLogOut.print(val,_how); return *this; };
